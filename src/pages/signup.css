@@ -1,0 +1,69 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+  
+html {
+    scroll-behavior: smooth;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: #ffffff00;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.411);
+  }
+  
+  .header-keyflix {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .header-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .keyflix-title {
+    color: #123662;
+    margin-left: 5px;
+    font-size: 18px;
+    text-shadow: 1px 1px 10px #0489f738;
+  }
+  
+  .header-options {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .btn-header-login {
+    background-color: #0356bb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 1px 1px 10px #0489f738;
+    transition: 0.5s all;
+  }
+  .btn-header-login:hover {
+    background-color: #013699;
+    box-shadow: 1px 1px 10px #0489f738;
+    transform: scale(1.02);
+  }
+
+.div-box-signup {
+    width: 80%;
+    height: auto;
+    background-color: white;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+}
