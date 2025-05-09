@@ -38,15 +38,15 @@ function Home() {
                     <h1 className='login-title'>KeyFlix Login</h1>
                     <p className='login-description'>Faça login para acessar sua conta, ou cadastre-se!</p>
                     <div className='login-inputs'>
-                        <label htmlFor="">E-mail:
+                        <label htmlFor="" className='label-email'>E-mail:
                             <input type="text" placeholder='Digite seu E-mail' className='login-input'/>
                         </label>
-                        <label htmlFor="">Senha:
+                        <label htmlFor="" className='label-senha'>Senha:
                             <input type="password" placeholder='Digite sua Senha' className='login-input'/>
                         </label>
                         <div className='login-checkbox'>
                             <input type="checkbox" className='login-checkbox'/>
-                            <label htmlFor="">Manter-me conectado</label>
+                            <label htmlFor="" className='label-checkbox'>Manter-me conectado</label>
                         </div>
                         
                     </div>
