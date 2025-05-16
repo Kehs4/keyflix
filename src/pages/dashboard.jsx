@@ -1,9 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './dashboard.css'
-import menuSwitch from './menu'
+import menuSwitch from '../components/menu'
+import Loading from '../components/Loading'
 
 function Dashboard() {
-  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    document.title = "KeyFlix - Dashboard";
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

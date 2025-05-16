@@ -1,38 +1,141 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import './signup.css'
 import { Link } from "react-router-dom";
-import menuSwitch from "./menu";
+import menuSwitch from "../components/menu";
+import Loading from "../components/Loading";
 
 function SignUp() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [passwordStrength, setPasswordStrength] = useState("");
+    const [passwordConfirmError, setPasswordConfirmError] = useState("");
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [phone, setPhone] = useState("");
+    const [cep, setCep] = useState("");
+    const [address, setAddress] = useState("");
+    const [number, setNumber] = useState("");
+    const [complement, setComplement] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [error, setError] = useState("");
+    const [birthdate, setBirthdate] = useState("");
+    const [termsAccepted, setTermsAccepted] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            name,
+            surname,
+            email,
+            password,
+            phone,
+            cep,
+            address,
+            number,
+            complement,
+            city,
+            state,
+            birthdate,
+            termsAccepted,
+        };
+
+        try {
+            const response = await fetch('http://localhost:9000/api/signup', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                alert('Usuário cadastrado com sucesso! ID: ' + data.userId);
+            } else {
+                alert('Erro ao cadastrar o usuário.');
+            }
+        } catch (error) {
+            console.error('Erro ao enviar os dados:', error);
+            alert('Erro ao conectar com o servidor.');
+        }
+    };
+
+    const handleCepChange = async (e) => {
+        const value = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+        setCep(value);
+
+        if (value.length === 8) { // Verifica se o CEP tem 8 dígitos
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${value}/json/`);
+                const data = await response.json();
+
+                if (data.erro) {
+                    setError("CEP não encontrado.");
+                    setAddress("");
+                    setCity("");
+                    setState("");
+                } else {
+                    setError("");
+                    setAddress(data.logradouro || "");
+                    setCity(data.localidade || "");
+                    setState(data.uf || "");
+                }
+            } catch (err) {
+                setError("Erro ao buscar o CEP.");
+                setAddress("");
+                setCity("");
+                setState("");
+            }
+        } else {
+            setError("");
+            setAddress("");
+            setCity("");
+            setState("");
+        }
+    };
+
+    const handlePasswordChange = (e) => {
+        const value = e.target.value;
+        setPassword(value);
+
+        // Verifica a força da senha
+        if (value.length >= 8 && /[A-Z]/.test(value) && /[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+            setPasswordStrength("Forte");
+        } else if (value.length >= 6) {
+            setPasswordStrength("Média");
+        } else {
+            setPasswordStrength("Fraca");
+        }
+    };
+
+    const validatePassword = (e) => {
+        const value = e.target.value;
+        if (!/[A-Z]/.test(value) || !/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+            e.target.setCustomValidity("A senha deve conter pelo menos 1 letra maiúscula e 1 caractere especial.");
+        } else {
+            e.target.setCustomValidity("");
+        }
+    };
 
     useEffect(() => {
-        const btnSignup = document.getElementById('header-options');
-        btnSignup.style.display = 'none';
 
-        const telefoneInput = document.getElementById('signup-number');
+        document.title = "KeyFlix - Cadastro de Usuário";
 
-        telefoneInput.addEventListener('input', function (e) {
-            let input = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
 
-            if (input.length > 11) input = input.slice(0, 11); // Limita a 11 dígitos
-
-            let formatted = input;
-
-            if (input.length > 0) {
-                formatted = '(' + input.substring(0, 2);
-            }
-            if (input.length >= 3) {
-                formatted += ') ' + input.substring(2, 7);
-            }
-            if (input.length >= 8) {
-                formatted += '-' + input.substring(7, 11);
-            }
-
-            e.target.value = formatted;
-        });
-
-
+        return () => clearTimeout(timer);
     }, []);
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
     return (
         <>
             <div className='header-container'>
@@ -40,11 +143,6 @@ function SignUp() {
                     <div className='header-logo'>
                         <img src="/public/keyflix.svg" alt="" width={30} height={30} id='keyflix-icon' />
                         <h1 className='keyflix-title' id='keyflix-title'>KeyFlix</h1>
-                    </div>
-                    <div className='header-options' id='header-options'>
-                        <Link to="/signup">
-                            <button className='btn-header-login'>Cadastre-se ou Faça Login</button>
-                        </Link>
                     </div>
                 </div>
             </div>
@@ -54,39 +152,225 @@ function SignUp() {
                     <div className="div-title-signup">
                         <h2 className="title-signup">Cadastro KeyFlix</h2>
                     </div>
-                    <form action="">
+                    <form onSubmit={handleSubmit}>
                         <div className="form-signup">
 
+                            {/* Nome e Sobrenome */}
                             <div className="div-inputs-signup">
                                 <div className="div-name-user">
-                                    <label htmlFor="signup-name" className="label-name">Nome</label>
-                                    <input type="text" name="name" id="signup-name" placeholder="Nome" className="inputs-signup" />
+                                    <label htmlFor="signup-name">Nome</label>
+                                    <input
+                                        type="text"
+                                        id="signup-name"
+                                        placeholder="Nome"
+                                        className="inputs-signup"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        required
+                                    />
                                 </div>
 
                                 <div className="div-surname-user">
-                                    <label htmlFor="signup-surname" className="label-surname">Sobrenome</label>
-                                    <input type="text" name="surname" id="signup-surname" placeholder="Sobrenome" className="inputs-signup" />
+                                    <label htmlFor="signup-surname">Sobrenome</label>
+                                    <input
+                                        type="text"
+                                        id="signup-surname"
+                                        placeholder="Sobrenome"
+                                        className="inputs-signup"
+                                        value={surname}
+                                        onChange={(e) => setSurname(e.target.value)}
+                                        required
+                                    />
                                 </div>
                             </div>
 
+                            {/* E-mail e Telefone */}
                             <div className="div-email-password">
                                 <div className="div-email-user">
                                     <label htmlFor="signup-email">E-mail</label>
-                                    <input type="email" name="email" id="signup-email" placeholder="E-mail" className="inputs-signup" />
+                                    <input
+                                        type="email"
+                                        id="signup-email"
+                                        placeholder="E-mail"
+                                        className="inputs-signup"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
                                 </div>
 
                                 <div className="div-number-user">
                                     <label htmlFor="signup-number">Número Telefone</label>
-                                    <input type='text' id="signup-number" mask="(99) 99999-9999" placeholder="(99) 99999-9999" maxLength={15}/>
+                                    <input
+                                        type="text"
+                                        id="signup-number"
+                                        placeholder="(99) 99999-9999"
+                                        maxLength={11}
+                                        className="inputs-signup"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ""))}
+                                        required
+                                    />
                                 </div>
                             </div>
 
+                            {/* Senha e Confirmação */}
                             <div className="div-password">
                                 <label htmlFor="signup-password">Senha</label>
-                                <input type="password" name="password" id="signup-password" placeholder="Senha" className="inputs-signup" />
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="signup-password"
+                                    placeholder="Senha"
+                                    className="inputs-signup"
+                                    required
+                                    value={password}
+                                    onChange={handlePasswordChange}
+                                    onInput={validatePassword}
+                                    onBlur={() => setPasswordStrength("")} // Limpa a força da senha ao sair do campo
+                                />
+                                {password && passwordStrength && (
+                                    <p className={`password-strength ${passwordStrength.toLowerCase()}`}>
+                                        Força da senha: {passwordStrength}
+                                    </p>
+                                )}
 
                                 <label htmlFor="signup-password-confirm">Confirmar Senha</label>
-                                <input type="password" name="password" id="signup-password-confirm" placeholder="Digite a senha novamente" className="inputs-signup" />
+                                <input
+                                    type="password"
+                                    name="passwordConfirm"
+                                    id="signup-password-confirm"
+                                    placeholder="Digite a senha novamente"
+                                    className="inputs-signup"
+                                    defaultValue={passwordConfirm}
+                                    required
+                                    onInput={(e) => {
+                                        if (e.target.value !== password) {
+                                            setPasswordConfirmError("As senhas não coincidem.");
+                                        } else {
+                                            setPasswordConfirmError("");
+                                        }
+                                    }}
+                                />
+                                {passwordConfirmError && (
+                                    <p className="password-error">{passwordConfirmError}</p>
+                                )}
+                            </div>
+
+                            {/* Endereço */}
+                            <div className="div-address">
+
+                                <label htmlFor="signup-zipcode">CEP</label>
+                                <input
+                                    type="text"
+                                    name="zipcode"
+                                    id="signup-zipcode"
+                                    placeholder="00000-000"
+                                    maxLength={9}
+                                    className="inputs-signup"
+                                    value={cep}
+                                    onChange={handleCepChange}
+                                    required
+                                />
+                                {error && <p className="cep-error">{error}</p>}
+
+                                <label htmlFor="signup-address">Endereço</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    id="signup-address"
+                                    placeholder="Logradouro (Rua, Avenida, etc.)"
+                                    className="inputs-signup"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    required
+                                />
+
+                                <div className="div-number-complement">
+                                    <div className="div-number">
+                                        <label htmlFor="signup-number-address">Número</label>
+                                        <input
+                                            type="number"
+                                            name="number"
+                                            id="signup-number-address"
+                                            placeholder="Número"
+                                            className="inputs-signup"
+                                            value={number}
+                                            onChange={(e) => setNumber(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="div-complement">
+                                        <label htmlFor="signup-complement">Complemento</label>
+                                        <input
+                                            type="text"
+                                            name="complement"
+                                            id="signup-complement"
+                                            placeholder="Complemento (opcional)"
+                                            value={complement}
+                                            onChange={(e) => setComplement(e.target.value)}
+                                            className="inputs-signup"
+                                        />
+                                    </div>
+                                </div>
+
+                                <label htmlFor="signup-state">Estado</label>
+                                <input
+                                    type="text"
+                                    name="state"
+                                    id="signup-state"
+                                    placeholder="Estado"
+                                    className="inputs-signup"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                    required
+                                />
+
+                                <label htmlFor="signup-city">Cidade</label>
+                                <input
+                                    type="text"
+                                    name="city"
+                                    id="signup-city"
+                                    placeholder="Cidade"
+                                    className="inputs-signup"
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                    required
+                                />
+
+                            </div>
+
+                            {/* Data de Nascimento */}
+                            <div className="div-birthdate">
+                                <label htmlFor="signup-birthdate">Data de Nascimento</label>
+                                <input
+                                    type="date"
+                                    id="signup-birthdate"
+                                    className="inputs-signup"
+                                    value={birthdate}
+                                    onChange={(e) => setBirthdate(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            {/* Termos e Condições */}
+                            <div className="div-terms">
+                                <input
+                                    type="checkbox"
+                                    id="signup-terms"
+                                    checked={termsAccepted}
+                                    onChange={(e) => setTermsAccepted(e.target.checked)}
+                                    required
+                                />
+                                <label htmlFor="signup-terms">
+                                    Eu aceito os <a href="/terms" target="_blank" rel="noopener noreferrer">Termos e Condições</a>
+                                </label>
+                            </div>
+
+                            {/* Botão de Cadastro */}
+                            <div className="div-submit">
+                                <button type="submit" className="btn-signup">Cadastrar</button>
                             </div>
                         </div>
                     </form>

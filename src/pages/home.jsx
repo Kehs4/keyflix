@@ -1,9 +1,25 @@
-import React from 'react'
+import { React, useState, useEffect } from 'react'
 import './principal.css'
 import { Link } from 'react-router-dom'
-import loginModal from './login'
+import loginModal from '../components/login'
+import Footer from '../components/Footer'
+import Loading from '../components/Loading'
 
 function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    document.title = "KeyFlix - Home";
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -39,10 +55,10 @@ function Home() {
                     <p className='login-description'>Faça login para acessar sua conta, ou cadastre-se!</p>
                     <div className='login-inputs'>
                         <label htmlFor="" className='label-email'>E-mail:
-                            <input type="text" placeholder='Digite seu E-mail' className='login-input'/>
+                            <input type="text" placeholder='Digite seu E-mail' className='login-input' required/>
                         </label>
                         <label htmlFor="" className='label-senha'>Senha:
-                            <input type="password" placeholder='Digite sua Senha' className='login-input'/>
+                            <input type="password" placeholder='Digite sua Senha' className='login-input' required/>
                         </label>
                         <div className='login-checkbox'>
                             <input type="checkbox" className='login-checkbox'/>
@@ -57,7 +73,7 @@ function Home() {
                     </div>
             </section>
             </form>
-
+       <Footer/>
     </>
   )
 }

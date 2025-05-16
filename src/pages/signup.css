@@ -37,113 +37,155 @@ html {
   text-shadow: 1px 1px 10px #0489f738;
 }
 
-.header-options {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.btn-header-login {
-  background-color: #0356bb;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 1px 1px 10px #0489f738;
-  transition: 0.5s all;
-}
-
-.btn-header-login:hover {
-  background-color: #013699;
-  box-shadow: 1px 1px 10px #0489f738;
-  transform: scale(1.02);
-}
-
 .title-signup {
   text-align: center;
   color: #0077ff;
-  text-shadow: 1px 1px 1px rgba(19, 16, 172, 0.856);
-  font-size: 30px;
-  margin-top: 20px;
+  font-size: 2rem;
+  text-shadow: 1px 1px 10px rgba(0, 119, 255, 0.2);
+}
+
+/* Modernização do layout do formulário com design claro */
+.form-signup {
+  display: flex;
+  flex-wrap: wrap;
+  width: 800px;
+  gap: 15px;
+  justify-content: center;
+  padding: 15px;
+}
+
+.div-inputs-signup,
+.div-email-password,
+.div-password,
+.div-address,
+.div-birthdate,
+.div-terms,
+.div-submit {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+}
+
+.password-strength {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.password-strength.fraca {
+  color: red;
+}
+
+.password-strength.média {
+  color: orange;
+}
+
+.password-strength.forte {
+  color: green;
+}
+
+.password-error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.div-inputs-signup {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#signup-name {
+  display: flex;
+  width: 330px;
+}
+
+
+.div-email-password {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.div-number-complement {
+  display: flex;
+  gap: 80px;
+  margin-top: 10px;
+}
+
+#signup-number-address::-webkit-inner-spin-button,
+#signup-number-address::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+#signup-number-address {
+    text-decoration: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+.inputs-signup {
+  width: 100%;
+  padding: 10px;
+  margin: 3px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.inputs-signup:focus {
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0 0 8px #0077ff;
+}
+
+.div-terms {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.div-terms input {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-signup {
+  background-color: #0077ff;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-signup:hover {
+  background-color: #0056cc;
+  transform: scale(1.05);
 }
 
 .div-box-signup {
   display: flex;
-  width: 80%;
   flex-direction: column;
-  height: auto;
-  background-color: rgb(16, 22, 41);
-  margin: auto;
-  margin-top: 20px;
-  border-radius: 5px;
-}
-
-.form-signup {
-  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  label {
-    font-size: 18px;
-    color: #ffffff;
-  }
-
-  input {
-    width: 300px;
-    height: 30px;
-    background-color: #09071d;
-    color: rgb(193, 225, 255);
-    border: 1px solid #1b243b;
-    padding: 6px;
-    border-radius: 8px;
-  }
-
-  input:focus {
-    outline: none;
-    border: 1px solid #0077ff;
-    box-shadow: 0 0 5px #0077ff;
-  }
-
-}
-
-.div-inputs-signup {
-  display: flex;
-  gap: 40px;
-  width: 100%;
-}
-
-.div-name-user {
-  display: flex;
-  flex-direction: column;
-}
-
-.div-surname-user {
-  display: flex;
-  flex-direction: column;
-}
-
-.div-email-password {
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
-}
-
-.div-email-user {
-  display: flex;
-  flex-direction: column;
-}
-
-.div-number-user {
-  display: flex;
-  flex-direction: column;
-  -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-.div-password {
-  display: flex;
-  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 

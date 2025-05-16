@@ -1,0 +1,44 @@
+
+.terms-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.terms-title {
+  text-align: center;
+  color: #0077ff;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 10px rgba(0, 119, 255, 0.2);
+}
+
+.terms-content section {
+  margin-bottom: 20px;
+}
+
+.terms-content h2 {
+  color: #0056cc;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.terms-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.terms-content ul {
+  margin-left: 20px;
+  list-style-type: disc;
+}
+
+.terms-content ul li {
+  margin-bottom: 5px;
+}

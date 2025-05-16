@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
 import SignUp from './pages/signup';
 import Dashboard from './pages/dashboard';
+import Terms from './pages/terms';
 
 const AppRoutes = () => {
   return (
@@ -10,6 +11,7 @@ const AppRoutes = () => {
       <Route path="*" element={<Home />} /> 
       <Route path="/signup" element={<SignUp />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/terms" element={<Terms />} />
     </Routes>
   );
 };
