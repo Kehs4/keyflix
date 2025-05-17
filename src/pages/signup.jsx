@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import './signup.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import menuSwitch from "../components/menu";
 import Loading from "../components/Loading";
 
@@ -23,6 +23,8 @@ function SignUp() {
     const [error, setError] = useState("");
     const [birthdate, setBirthdate] = useState("");
     const [termsAccepted, setTermsAccepted] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -54,12 +56,12 @@ function SignUp() {
 
             if (response.ok) {
                 const data = await response.json();
-                alert('Usuário cadastrado com sucesso! ID: ' + data.userId);
+                setShowSuccessModal(true); // Exibe o modal de sucesso
             } else {
-                alert('Erro ao cadastrar o usuário.');
+                alert('Erro ao cadastrar as informações em nosso sistema.');
             }
         } catch (error) {
-            console.error('Erro ao enviar os dados:', error);
+            console.error('Erro ao enviar os dados para o servidor:', error);
             alert('Erro ao conectar com o servidor.');
         }
     };
@@ -376,6 +378,21 @@ function SignUp() {
                     </form>
                 </div>
             </section>
+
+            {showSuccessModal && (
+                <div className="modal-overlay-success">
+                    <div className="modal-container-success">
+                        <div className="modal-icon-success">
+                            <span className="modal-checkmark">✔</span>
+                        </div>
+                        <h2 className="modal-title-success">Cadastro Realizado!</h2>
+                        <p className="modal-message-success">Seu cadastro foi realizado com sucesso. Por favor, faça login para acessar sua conta em nossa página inicial.</p>
+                        <button className="modal-button-success" onClick={() => navigate('/home')}>
+                            Ok.
+                        </button>
+                    </div>
+                </div>
+            )}
 
         </>
     )

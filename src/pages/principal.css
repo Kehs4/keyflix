@@ -97,7 +97,8 @@ body {
     color: white;
     text-shadow: #867dff 0px 0px 10px;
     font-size: 20px;
-    text-decoration: overline;
+    text-decoration: underline;
+    text-decoration-color: #18153b;
 }
 
 .principal-description-2 {
@@ -128,10 +129,13 @@ body {
     display: flex;
     background-color: rgba(255, 255, 255, 0.938);
     border-radius: 20px;
-    box-shadow: #0254ec 0px 0px 10px;
+    box-shadow: #0356bb 0px 0px 10px;
     width: 500px;
     height: 500px;
     margin: auto;
+    border: 5px solid rgb(11, 67, 150);
+    border-style: ridge;
+    padding: 10px;
     align-items: center;
     flex-direction: column;
     margin-top: 30vh;
@@ -145,7 +149,7 @@ body {
 
 .login-description {
     font-size: 14px;
-    color: #0b52d6fb;
+    color: #0356bb;
     text-align: center;
     margin-bottom: 25px;
 }
@@ -155,29 +159,49 @@ body {
 }
 
 .login-input {
-    margin: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-left: 8px;
-    background-color: #d8d8d8e3;
-    width: 350px;
-    height: 36px;
-    border-radius: 5px;
-    border: none;
-    padding-left: 10px;
-    box-shadow: 1px 1px 10px #0489f738;
-    transition: 0.5s all;
+  width: 100%;
+  padding: 10px;
+  margin: 3px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .login-inputs input:focus {
-    outline: 1px solid #366daf;
-    box-shadow: 1px 1px 10px #0489f738;
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0 0 8px #0077ff;
+}
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-input {
+  flex: 1;
+  padding-right: 40px; /* Espaço para o botão de olho */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .label-checkbox {
-  font-size: 12px;
-  padding: 5px;
+  font-size: 14px;
+  padding: 8px;
 }
 
 .login-checkbox {
@@ -194,7 +218,7 @@ body {
     color: white;
     border: none;
     margin-bottom: 30px;
-    padding: 7px 120px;
+    padding: 8px 120px;
     border-radius: 5px;
     cursor: pointer;
     box-shadow: 1px 1px 10px #0489f738;
@@ -227,17 +251,20 @@ body {
     padding: 3px 9px;
     border-radius: 5px;
     cursor: pointer;
-    box-shadow: 1px 1px 10px #0489f738;
     transition: 0.5s all;
 }
 
+.btn-login-close:hover {
+    background-color: #013699;
+}
+
 .login-description-2 {
-    font-size: 12px;
+    font-size: 13px;
     color: rgb(17, 17, 17);
 }
 
 .login-description-2 a {
-    color: #0254ec;
+    color: #0356bb;
     text-decoration: none;
 }
 
@@ -270,14 +297,14 @@ body {
 }
 
 .modal-checkmark {
-  color: #4caf50;
+  color: #0356bb;
 }
 
 .modal-title-success {
-  color: #4caf50;
-  font-family: 'Archivo', sans-serif;
+  color: #0356bb;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  text-shadow: #4caf50 0px 0px 10px;
+  text-shadow: #008cff8c 0px 0px 10px;
   font-size: 30px;
   margin-bottom: 10px;
 }

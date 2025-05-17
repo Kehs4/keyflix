@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import loginModal from '../components/login'
 import Footer from '../components/Footer'
 import Loading from '../components/Loading'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,6 +15,7 @@ function Home() {
   const [errorMessage, setErrorMessage] = useState('');
   const [modalBorder, setModalBorder] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -48,10 +51,10 @@ function Home() {
         localStorage.setItem('user', JSON.stringify({ name: data.UserName, surname: data.UserSurname }));
 
         setTimeout(() => {
-          navigate('/dashboard'); 
+          navigate('/dashboard');
         }, 2000);
       } else {
-        setErrorMessage(data.error); 
+        setErrorMessage(data.error);
         setModalBorder('red');
       }
     } catch (error) {
@@ -90,7 +93,7 @@ function Home() {
 
       <form onSubmit={handleSubmit}>
         <section className='Login-modal' id='login-modal'>
-          <div className="login-container" style={{ border: `2px solid ${modalBorder}` }}>
+          <div className="login-container">
             <div className="login-close">
               <button className="btn-login-close" id="btn-close">
                 X
@@ -113,14 +116,27 @@ function Home() {
               </label>
               <label htmlFor="" className="label-senha">
                 Senha:
-                <input
-                  type="password"
-                  placeholder="Digite sua Senha"
-                  className="login-input"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="password-container">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Digite sua Senha"
+                    className="login-input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <Visibility style={{ fontSize: '20px' }} /> 
+                    ) : (
+                      <VisibilityOff style={{ fontSize: '20px' }} />
+                    )}
+                  </button>
+                </div>
               </label>
               {errorMessage && <p className="login-error">{errorMessage}</p>}
               <div className="login-checkbox">
