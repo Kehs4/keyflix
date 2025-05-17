@@ -30,7 +30,9 @@ app.use(cors());
 // Middleware para processar JSON
 app.use(bodyParser.json());
 
-// Endpoint para inserir dados no banco
+// Endpoint para cadastro do usuário no banco de dados.
+const bcrypt = require('bcrypt');
+
 app.post('/api/signup', async (req, res) => {
   console.log('Dados recebidos:', req.body); // Log para verificar os dados recebidos
 
@@ -54,18 +56,60 @@ app.post('/api/signup', async (req, res) => {
   }
 
   try {
+    // Criptografar a senha antes de salvar
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const query = `
       INSERT INTO users (name, surname, email, password, phone, cep, address, number, complement, city, state, birthdate)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
       RETURNING id;
     `;
-    const values = [name, surname, email, password, phone, cep, address, number, complement, city, state, birthdate];
+    const values = [name, surname, email, hashedPassword, phone, cep, address, number, complement, city, state, birthdate];
 
     const result = await pool.query(query, values);
     res.status(201).json({ message: 'Usuário cadastrado com sucesso!', userId: result.rows[0].id });
   } catch (error) {
     console.error('Erro ao inserir dados no banco:', error);
     res.status(500).json({ error: 'Erro ao cadastrar o usuário.' });
+  }
+});
+
+// Endpoint para login do usuário
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'E-mail e senha são obrigatórios.' });
+  }
+
+  try {
+    const query = 'SELECT id, name, surname, password FROM users WHERE email = $1';
+    const values = [email];
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Não existe nenhuma conta encontrada com essas informações.' });
+    }
+
+    const user = result.rows[0];
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Senha incorreta.' });
+    }
+
+    // Log de autenticação
+    console.log(`[LOGIN] Usuário autenticado: ${user.name} ${user.surname} (E-mail: ${email}) às ${new Date().toLocaleString()}`);
+
+    res.status(200).json({
+      message: 'Login bem-sucedido!',
+      userId: user.id,
+      UserName: user.name,
+      UserSurname: user.surname,
+    });
+  } catch (error) {
+    console.error('Erro ao verificar login:', error);
+    res.status(500).json({ error: 'Erro interno do servidor.' });
   }
 });
 

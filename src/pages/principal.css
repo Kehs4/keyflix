@@ -207,6 +207,12 @@ body {
     transform: scale(1.01);
 }
 
+.login-error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
 .login-close {
   display: flex;
   margin-left: auto;
@@ -233,6 +239,53 @@ body {
 .login-description-2 a {
     color: #0254ec;
     text-decoration: none;
+}
+
+.modal-overlay-success {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container-success {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px 30px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.modal-icon-success {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.modal-checkmark {
+  color: #4caf50;
+}
+
+.modal-title-success {
+  color: #4caf50;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  text-shadow: #4caf50 0px 0px 10px;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.modal-message-success {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #333;
 }
 
   

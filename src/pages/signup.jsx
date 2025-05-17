@@ -227,7 +227,7 @@ function SignUp() {
                                     value={password}
                                     onChange={handlePasswordChange}
                                     onInput={validatePassword}
-                                    onBlur={() => setPasswordStrength("")} // Limpa a força da senha ao sair do campo
+                                    onBlur={() => setPasswordStrength("")}
                                 />
                                 {password && passwordStrength && (
                                     <p className={`password-strength ${passwordStrength.toLowerCase()}`}>
