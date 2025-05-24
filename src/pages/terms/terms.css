@@ -1,3 +1,42 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.header-container-terms {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #ffffff;
+  background: linear-gradient(90deg, rgb(238, 238, 238) 0%, #7FAFE8 100%);
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.411);
+}
+
+.header-keyflix-terms {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+}
+
+.header-logo-terms {
+  display: flex;
+  align-items: center;
+}
+
+.keyflix-title-terms {
+  color: #123662;
+  margin-left: 5px;
+  font-size: 18px;
+  text-shadow: 1px 1px 10px #0489f738;
+}
 
 .terms-container {
   max-width: 800px;

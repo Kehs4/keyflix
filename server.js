@@ -18,7 +18,7 @@ pool.connect((err, client, release) => {
   if (err) {
     return console.error('Erro ao conectar ao banco de dados:', err.stack);
   }
-  console.log('Conexão com o banco de dados estabelecida com sucesso!');
+  console.log('Conexão com o banco de dados da Keyflix estabelecida com sucesso!');
   release();
 });
 
@@ -83,7 +83,7 @@ app.post('/api/login', async (req, res) => {
   }
 
   try {
-    const query = 'SELECT id, name, surname, password FROM users WHERE email = $1';
+    const query = 'SELECT id, name, surname, password, email, phone, cep, address, number, complement, city, state, birthdate, keys FROM users WHERE email = $1';
     const values = [email];
     const result = await pool.query(query, values);
 
@@ -106,6 +106,16 @@ app.post('/api/login', async (req, res) => {
       userId: user.id,
       UserName: user.name,
       UserSurname: user.surname,
+      UserEmail: user.email,
+      UserPhone: user.phone,
+      UserCEP: user.cep,
+      UserAddress: user.address,
+      UserNumber: user.number,
+      UserComplement: user.complement,
+      UserCity: user.city,
+      UserState: user.state,
+      UserBirthdate: user.birthdate,
+      UserKeys: user.keys,
     });
   } catch (error) {
     console.error('Erro ao verificar login:', error);
