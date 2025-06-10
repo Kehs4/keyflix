@@ -1,14 +1,19 @@
 import { React, useState, useEffect } from "react";
 import Loading from "../../../components/Loading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './profile.css'
 import '../dashboard.css'
 
+
+
+    
 
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const user = JSON.parse(localStorage.getItem("user"));
+
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
 
     const [userColor, setUserColor] = useState('');
 
@@ -21,6 +26,12 @@ const Profile = () => {
         return color;
     }
 
+    function handleLogout() {
+        localStorage.removeItem("user");
+        setUserColor('');
+        setIsMenuOpen(false);
+    }
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     function menuSwitch() {
@@ -28,7 +39,11 @@ const Profile = () => {
     }
 
     if (!user) {
-        return <p>Usuário não encontrado. Por favor, faça login novamente.</p>;
+        return  <div style={{ display:'flex', flexDirection: 'column', justifyContent:'center',  textAlign: 'center', marginTop: '60px', color: '#ff0000', backgroundColor: '#f8d7da', padding: '20px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
+                    <p>Usuário não encontrado. Por favor, faça login novamente.</p>
+
+                    <Link to="/home"><button style={{ backgroundColor: '#FFAAAA', color: 'red', padding: '10px', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Home</button></Link>
+                </div>;
     }
 
     useEffect(() => {
@@ -49,25 +64,21 @@ const Profile = () => {
         return <Loading />;
     }
 
-    const userInfo = [
-        { label: "Nome Completo", value: `${user.name} ${user.surname}` },
-        { label: "Email", value: user.email },
-        { label: "Telefone", value: user.phone },
-        { label: "Data de Nascimento", value: user.birthDate },
-        { label: "Quantidade de Keys", value: user.keys.toString() }
-    ];
-
-    const addressInfo = [
-        { label: "CEP", value: user.cep },
-        { label: "Endereço", value: user.address },
-        { label: "Número", value: user.number },
-        { label: "Complemento", value: user.complement },
-        { label: "Cidade", value: user.city },
-        { label: "Estado", value: user.state }
-    ];
 
     return (
         <>
+            {showLogoutModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Deseja realmente sair da plataforma?</h2>
+                        <div className="modal-actions">
+                        <Link to="/home"><button className="btn-logout-confirm" onClick={handleLogout}>Sim, sair</button></Link>
+                            <button className="btn-logout-cancel" onClick={() => setShowLogoutModal(false)}>Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className='header-container'>
                 <button className='btn-menu-keyflix' id='menu-switch' onClick={menuSwitch}>
                     <img src="/public/menuicon.svg" alt="" />
@@ -177,7 +188,7 @@ const Profile = () => {
                                     <p className='user-email'>{user.email}</p>
                                     <p className='keys-quantity'>{user.keys} Keys</p>
 
-                                    <Link to="/edit-profile" className='edit-profile-link'>
+                                    <Link to="/edit-profile">
                                         <button className='btn-edit-profile'>Editar Perfil</button>
                                     </Link>
                                 </div>
@@ -231,6 +242,10 @@ const Profile = () => {
                                             <p>{user.state}</p>
                                         </div>
                                     </div>
+                                </div>
+                                
+                                <div className='menu-options-box'>
+                                <button className='btn-logout' onClick={() => setShowLogoutModal(true)}>Logout</button>
                                 </div>
 
                             </div>
