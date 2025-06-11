@@ -6,6 +6,7 @@ import Dashboard from './pages/dashboard/dashboard';
 import Terms from './pages/terms/terms';
 import NotFound from './pages/NotFound';
 import Profile from './pages/dashboard/profile/profile';
+import EditProfile from './pages/dashboard/profile/editprofile';
 
 const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/edit" element={<EditProfile />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="*" element={<NotFound />} />

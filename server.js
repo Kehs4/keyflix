@@ -123,6 +123,60 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// Endpoint para atualizar os dados do usuário
+app.post('/api/user/update', async (req, res) => {
+  const {
+    email, // email é obrigatório para identificar o usuário
+    name,
+    surname,
+    phone,
+    cep,
+    address,
+    number,
+    complement,
+    city,
+    state,
+    birthdate
+  } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: 'E-mail é obrigatório para atualizar o usuário.' });
+  }
+
+  try {
+    const query = `
+      UPDATE users
+      SET name = $1,
+          surname = $2,
+          phone = $3,
+          cep = $4,
+          address = $5,
+          number = $6,
+          complement = $7,
+          city = $8,
+          state = $9,
+          birthdate = $10
+      WHERE email = $11
+      RETURNING id, name, surname, email, phone, cep, address, number, complement, city, state, birthdate, keys;
+    `;
+    const values = [name, surname, phone, cep, address, number, complement, city, state, birthdate, email];
+
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+
+    res.status(200).json({
+      message: 'Dados do usuário atualizados com sucesso!',
+      user: result.rows[0]
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar usuário:', error);
+    res.status(500).json({ error: 'Erro interno do servidor ao atualizar usuário.' });
+  }
+});
+
 // Inicia o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

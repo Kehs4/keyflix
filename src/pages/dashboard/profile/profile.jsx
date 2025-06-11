@@ -188,7 +188,7 @@ const Profile = () => {
                                     <p className='user-email'>{user.email}</p>
                                     <p className='keys-quantity'>{user.keys} Keys</p>
 
-                                    <Link to="/edit-profile">
+                                    <Link to="/profile/edit">
                                         <button className='btn-edit-profile'>Editar Perfil</button>
                                     </Link>
                                 </div>
